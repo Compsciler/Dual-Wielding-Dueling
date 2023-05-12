@@ -239,6 +239,14 @@ namespace Unity.FPS.Gameplay
                 }
             }
 
+            PlayerCharacterController player = FindObjectOfType<PlayerCharacterController>();  // TODO: don't use FindObject
+            if (m_ProjectileBase.Owner != null && m_ProjectileBase.Owner == player.gameObject)
+            {
+                LaunchPlayer launchPlayer = player.GetComponent<LaunchPlayer>();
+                Vector3 launchVelocity = launchPlayer.GetLaunchVelocity(point);
+                player.CharacterVelocity += launchVelocity;
+            }
+
             // impact vfx
             if (ImpactVfx)
             {
