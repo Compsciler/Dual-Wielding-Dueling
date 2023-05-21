@@ -16,7 +16,6 @@ public class GrapplingGun : WeaponArm {
     [SerializeField] Color crosshairColorNotGrappleable;
     [SerializeField] TMP_Text notGrappleableDistanceText;
 
-
     void Awake() {
         lr = GetComponent<LineRenderer>();
         lr.positionCount = 0;
