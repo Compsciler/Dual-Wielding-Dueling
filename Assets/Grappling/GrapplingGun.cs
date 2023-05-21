@@ -12,6 +12,8 @@ public class GrapplingGun : MonoBehaviour {
     private bool grappling;
     private SpringJoint joint;
 
+    [SerializeField] ParticleSystem pulseParticles;
+
     void Awake() {
         lr = GetComponent<LineRenderer>();
         lr.positionCount = 0;
@@ -65,9 +67,10 @@ public class GrapplingGun : MonoBehaviour {
     }
 
     void Pulse(){
-            Vector3 v = camera.forward;
-            v/= - v.magnitude;
-            player.GetComponent<Rigidbody>().AddForce(v*lanch,ForceMode.Impulse);
+        Vector3 v = camera.forward;
+        v/= - v.magnitude;
+        player.GetComponent<Rigidbody>().AddForce(v*lanch,ForceMode.Impulse);
+        pulseParticles.Play();
     }
 
 
