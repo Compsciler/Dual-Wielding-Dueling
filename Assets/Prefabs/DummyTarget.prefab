@@ -111,4 +111,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7893534970090a0418bb7f877bfa5bc1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hitParticlesPrefab: {fileID: 725748389856807714, guid: 4bda94453d2ca7444a0fff05b2d425f5, type: 3}
+  hitParticlesPrefab: {fileID: 725748389856807714, guid: b553fb0e210854549b926dd001660425, type: 3}
