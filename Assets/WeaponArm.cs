@@ -15,25 +15,52 @@ public abstract class WeaponArm: MonoBehaviour
     public string WeaponName;
     public Sprite WeaponIcon;
     public int maxBullets;
-    public int curBullets;
+    private int curBullets;
     public float reloadTime;
-    public float shotsPS;
+    public float SecsPerShot;
     public float timeLeft;
-    public Transform muzzle;
     public AmmoController ammo;
     public CrosshairData defCrosshair;
+    public Transform gunTip, camera, player;
     public bool firing;
+    public int arm;
     
     void Start()
     {
         curBullets=maxBullets;
         timeLeft=reloadTime;
+        firing = false;
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        if(!firing)
+        {
+            timeLeft-=Time.deltaTime;
+        }
+        else
+        {
+            timeLeft=reloadTime;
+        }
+        if(timeLeft<0)
+        {
+            curBullets=maxBullets;
+        }
+    }
+
+    void LateUpdate()
+    {
+         if (Input.GetMouseButtonDown(arm)&&curBullets>0&&!firing) {
+            Fire();
+        }
+        else if (Input.GetMouseButtonUp(arm)&&firing) {
+            Release();
+        }
+        if(firing)
+        {
+            Hold();
+        }
     }
     public virtual void Fire()
     {
@@ -44,6 +71,8 @@ public abstract class WeaponArm: MonoBehaviour
         }
         timeLeft=reloadTime;
     }
+    public virtual void Hold()
+    {}
     public virtual void Release()
     {
         firing=false;

@@ -1,15 +1,13 @@
 using UnityEngine;
 using System;
 
-public class GrapplingGun : MonoBehaviour {
+public class GrapplingGun : WeaponArm {
 
     private LineRenderer lr;
     private Vector3 grapplePoint;
     public LayerMask whatIsGrappleable;
-    public Transform gunTip, camera, player;
     private float maxDistance = 1000f;
     public float lanch;
-    private bool grappling;
     private SpringJoint joint;
 
     [SerializeField] ParticleSystem pulseParticles;
@@ -17,30 +15,13 @@ public class GrapplingGun : MonoBehaviour {
     void Awake() {
         lr = GetComponent<LineRenderer>();
         lr.positionCount = 0;
-        grappling = false;
-    }
-
-    void Update() {
-        if (Input.GetMouseButtonDown(1)) {
-            Pulse();
-        }
-        if (Input.GetMouseButtonDown(0)) {
-            StartGrapple();
-        }
-        else if (Input.GetMouseButtonUp(0)) {
-            StopGrapple();
-        }
-    }
-
-    //Called after Update
-    void LateUpdate() {
-        DrawRope();
     }
 
     /// <summary>
     /// Call whenever we want to start a grapple
     /// </summary>
-    void StartGrapple() {
+    public override void Fire() {
+        Debug.Log("real fires");
         RaycastHit hit;
         if (Physics.Raycast(camera.position, camera.forward, out hit, maxDistance, whatIsGrappleable)) {
             grapplePoint = hit.point;
@@ -62,7 +43,7 @@ public class GrapplingGun : MonoBehaviour {
             currentGrapplePosition = gunTip.position;
             Vector3 launch = CalculateJumpVelocity(currentGrapplePosition,grapplePoint);
             player.GetComponent<Rigidbody>().velocity+=launch;
-            grappling=true;
+            firing=true;
         }
     }
 
@@ -77,17 +58,25 @@ public class GrapplingGun : MonoBehaviour {
     /// <summary>
     /// Call whenever we want to stop a grapple
     /// </summary>
-    void StopGrapple() {
+    public override void Release() {
         lr.positionCount = 0;
         Destroy(joint);
-        grappling=false;
+        firing=false;
+    }
+
+    public override void Hold()
+    {
+        if(firing)
+        {
+            DrawRope();
+        }
     }
 
     private Vector3 currentGrapplePosition;
     
     void DrawRope() {
         //If not grappling, don't draw rope
-        if (!grappling) return;
+        if (!firing) return;
         currentGrapplePosition = gunTip.position;
         lr.SetPosition(0, currentGrapplePosition);
         lr.SetPosition(1, grapplePoint);
