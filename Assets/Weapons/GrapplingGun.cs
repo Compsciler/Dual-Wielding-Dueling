@@ -7,10 +7,8 @@ public class GrapplingGun : WeaponArm {
     private Vector3 grapplePoint;
     public LayerMask whatIsGrappleable;
     private float maxDistance = 1000f;
-    public float lanch;
     private SpringJoint joint;
 
-    [SerializeField] ParticleSystem pulseParticles;
 
     void Awake() {
         lr = GetComponent<LineRenderer>();
@@ -21,7 +19,6 @@ public class GrapplingGun : WeaponArm {
     /// Call whenever we want to start a grapple
     /// </summary>
     public override void Fire() {
-        Debug.Log("real fires");
         RaycastHit hit;
         if (Physics.Raycast(camera.position, camera.forward, out hit, maxDistance, whatIsGrappleable)) {
             grapplePoint = hit.point;
@@ -45,13 +42,6 @@ public class GrapplingGun : WeaponArm {
             player.GetComponent<Rigidbody>().velocity+=launch;
             firing=true;
         }
-    }
-
-    void Pulse(){
-        Vector3 v = camera.forward;
-        v/= - v.magnitude;
-        player.GetComponent<Rigidbody>().AddForce(v*lanch,ForceMode.Impulse);
-        pulseParticles.Play();
     }
 
 
