@@ -4,7 +4,11 @@ using UnityEngine;
 
 public class PlayerAttributes : MonoBehaviour
 {
-    // Start is called before the first frame update
+    public float playerMass;
+    public float playerSize;
+    public float maxPlayerHealth;
+    public float curPlayerHealth;
+    public float speed;
     void Start()
     {
         

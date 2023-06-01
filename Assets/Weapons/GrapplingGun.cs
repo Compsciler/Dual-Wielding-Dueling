@@ -40,7 +40,7 @@ public class GrapplingGun : WeaponArm {
             currentGrapplePosition = gunTip.position;
             Vector3 launch = CalculateJumpVelocity(currentGrapplePosition,grapplePoint);
             player.GetComponent<Rigidbody>().velocity+=launch;
-            firing=true;
+            base.Fire();
         }
     }
 
@@ -51,22 +51,18 @@ public class GrapplingGun : WeaponArm {
     public override void Release() {
         lr.positionCount = 0;
         Destroy(joint);
-        firing=false;
+        base.Release();
     }
 
     public override void Hold()
     {
-        if(firing)
-        {
-            DrawRope();
-        }
+        DrawRope();
     }
 
     private Vector3 currentGrapplePosition;
     
     void DrawRope() {
         //If not grappling, don't draw rope
-        if (!firing) return;
         currentGrapplePosition = gunTip.position;
         lr.SetPosition(0, currentGrapplePosition);
         lr.SetPosition(1, grapplePoint);
