@@ -4,11 +4,8 @@ using UnityEngine;
 
 public class PlayerAttributes : MonoBehaviour
 {
-    public float playerMass;
-    public float playerSize;
-    public float maxPlayerHealth;
-    public float curPlayerHealth;
-    public float speed;
+    public Transform leftArm;
+    public Transform rightArm;
     void Start()
     {
         
