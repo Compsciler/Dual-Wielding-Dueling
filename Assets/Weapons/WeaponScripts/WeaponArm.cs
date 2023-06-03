@@ -20,10 +20,11 @@ public abstract class WeaponArm: MonoBehaviour
     public float secsPerShot;
     private float timeLeft;
     private float shotTimeLeft;
-    public AmmoController ammo;
     public CrosshairData defCrosshair;
-    public Transform gunTip, camera, player;
-    public bool firing;
+    public Transform gunTip, player;
+
+    protected Transform cam;
+    private bool firing;
     public int arm;
     
     void Start()
@@ -32,6 +33,7 @@ public abstract class WeaponArm: MonoBehaviour
         timeLeft=reloadTime;
         shotTimeLeft=secsPerShot;
         firing = false;
+        cam=Camera.main.transform;
     }
 
     // Update is called once per frame
