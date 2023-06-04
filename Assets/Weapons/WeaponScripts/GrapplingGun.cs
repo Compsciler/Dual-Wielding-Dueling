@@ -1,5 +1,7 @@
 using UnityEngine;
 using System;
+using UnityEngine.UI;
+using TMPro;
 
 public class GrapplingGun : WeaponArm {
 
@@ -8,6 +10,11 @@ public class GrapplingGun : WeaponArm {
     public LayerMask whatIsGrappleable;
     public float maxDistance;
     private SpringJoint joint;
+
+    [SerializeField] Image crosshairImage;
+    [SerializeField] Color crosshairColorGrappleable;
+    [SerializeField] Color crosshairColorNotGrappleable;
+    [SerializeField] TMP_Text notGrappleableDistanceText;
 
 
     void Awake() {
@@ -41,6 +48,27 @@ public class GrapplingGun : WeaponArm {
             Vector3 launch = CalculateJumpVelocity(currentGrapplePosition,grapplePoint);
             player.GetComponent<Rigidbody>().velocity+=launch;
             base.Fire();
+        }
+    }
+
+    protected override void Update()
+    {
+        base.Update();
+        RaycastHit hit;
+        if (Physics.Raycast(cam.position, cam.forward, out hit, maxDistance, whatIsGrappleable)) {
+            crosshairImage.color = crosshairColorGrappleable;
+            notGrappleableDistanceText.text = "";
+        }
+        else
+        {
+            crosshairImage.color = crosshairColorNotGrappleable;
+            if (Physics.Raycast(cam.position, cam.forward, out hit, Mathf.Infinity, whatIsGrappleable)) {
+                notGrappleableDistanceText.text = Mathf.Ceil(hit.distance - maxDistance).ToString();
+            }
+            else
+            {
+                notGrappleableDistanceText.text = "";
+            }
         }
     }
 
