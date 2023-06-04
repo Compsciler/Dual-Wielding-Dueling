@@ -299,6 +299,11 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 2651326194625948880, guid: 9dd1409f66c268d5c9aab987293a0476, type: 3}
   m_PrefabInstance: {fileID: 590003818}
   m_PrefabAsset: {fileID: 0}
+--- !u!198 &146708015 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 2986787467212624771, guid: 9dd1409f66c268d5c9aab987293a0476, type: 3}
+  m_PrefabInstance: {fileID: 590003818}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &216815481
 GameObject:
   m_ObjectHideFlags: 0
@@ -611,6 +616,22 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1164757555}
     m_Modifications:
+    - target: {fileID: 506623989990614628, guid: 9dd1409f66c268d5c9aab987293a0476, type: 3}
+      propertyPath: InitialModule.startSize.scalar
+      value: 0.05
+      objectReference: {fileID: 0}
+    - target: {fileID: 506623989990614628, guid: 9dd1409f66c268d5c9aab987293a0476, type: 3}
+      propertyPath: InitialModule.startSize.minScalar
+      value: 0.025
+      objectReference: {fileID: 0}
+    - target: {fileID: 2119512791398415254, guid: 9dd1409f66c268d5c9aab987293a0476, type: 3}
+      propertyPath: InitialModule.startSize.scalar
+      value: 0.25
+      objectReference: {fileID: 0}
+    - target: {fileID: 2119512791398415254, guid: 9dd1409f66c268d5c9aab987293a0476, type: 3}
+      propertyPath: InitialModule.startSize.minScalar
+      value: 0.1
+      objectReference: {fileID: 0}
     - target: {fileID: 2651326194625948880, guid: 9dd1409f66c268d5c9aab987293a0476, type: 3}
       propertyPath: m_RootOrder
       value: 0
@@ -680,6 +701,10 @@ PrefabInstance:
       value: 0.01
       objectReference: {fileID: 0}
     - target: {fileID: 2651326194625948881, guid: 9dd1409f66c268d5c9aab987293a0476, type: 3}
+      propertyPath: pulseParticles
+      value: 
+      objectReference: {fileID: 146708015}
+    - target: {fileID: 2651326194625948881, guid: 9dd1409f66c268d5c9aab987293a0476, type: 3}
       propertyPath: pulseGunAmmoText
       value: 
       objectReference: {fileID: 1512129170}
@@ -690,6 +715,38 @@ PrefabInstance:
     - target: {fileID: 2651326194625948883, guid: 9dd1409f66c268d5c9aab987293a0476, type: 3}
       propertyPath: m_Name
       value: PulseArm
+      objectReference: {fileID: 0}
+    - target: {fileID: 2986787465901068336, guid: 9dd1409f66c268d5c9aab987293a0476, type: 3}
+      propertyPath: InitialModule.startSize.scalar
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2986787467188023110, guid: 9dd1409f66c268d5c9aab987293a0476, type: 3}
+      propertyPath: m_Range
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 2986787467188023110, guid: 9dd1409f66c268d5c9aab987293a0476, type: 3}
+      propertyPath: m_Intensity
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2986787467212624771, guid: 9dd1409f66c268d5c9aab987293a0476, type: 3}
+      propertyPath: InitialModule.startSize.scalar
+      value: 2.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2986787467212624829, guid: 9dd1409f66c268d5c9aab987293a0476, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2986787467212624829, guid: 9dd1409f66c268d5c9aab987293a0476, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2986787467212624829, guid: 9dd1409f66c268d5c9aab987293a0476, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6376579331869813163, guid: 9dd1409f66c268d5c9aab987293a0476, type: 3}
+      propertyPath: InitialModule.startSize.scalar
+      value: 1.5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9dd1409f66c268d5c9aab987293a0476, type: 3}

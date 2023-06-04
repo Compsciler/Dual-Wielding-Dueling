@@ -10,12 +10,15 @@ public class PulseGun : WeaponArm {
     [SerializeField] TMP_Text pulseGunAmmoText;
     [SerializeField] Image pulseGunReloadImage;
 
+    [SerializeField] ParticleSystem pulseParticles;
+
 
     public override void Fire(){
         Vector3 v = cam.forward;
         v/= - v.magnitude;
         player.GetComponent<Rigidbody>().AddForce(v*launch,ForceMode.Impulse);
         base.Fire();
+        pulseParticles.Play();
     }
 
     protected override void Update()
