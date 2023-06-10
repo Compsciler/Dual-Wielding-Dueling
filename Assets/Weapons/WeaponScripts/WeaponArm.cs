@@ -15,10 +15,10 @@ public abstract class WeaponArm: MonoBehaviour
     public string weaponName;
     public Sprite weaponIcon;
     public int maxBullets;
-    private int curBullets;
+    protected int curBullets;
     public float reloadTime;
     public float secsPerShot;
-    private float timeLeft;
+    protected float timeLeft;
     private float shotTimeLeft;
     public CrosshairData defCrosshair;
     public Transform gunTip, player;
@@ -37,7 +37,7 @@ public abstract class WeaponArm: MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    protected virtual void Update()
     {
         if(!firing)
         {
