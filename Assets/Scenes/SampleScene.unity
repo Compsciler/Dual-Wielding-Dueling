@@ -659,6 +659,14 @@ PrefabInstance:
       propertyPath: arm
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 2651326194625948881, guid: 9dd1409f66c268d5c9aab987293a0476, type: 3}
+      propertyPath: launch
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 2651326194625948881, guid: 9dd1409f66c268d5c9aab987293a0476, type: 3}
+      propertyPath: player
+      value: 
+      objectReference: {fileID: 1161304484}
     - target: {fileID: 2651326194625948883, guid: 9dd1409f66c268d5c9aab987293a0476, type: 3}
       propertyPath: m_Name
       value: PulseArm
@@ -1651,6 +1659,7 @@ GameObject:
   - component: {fileID: 1067963601}
   - component: {fileID: 1067963600}
   - component: {fileID: 1067963599}
+  - component: {fileID: 1067963602}
   m_Layer: 0
   m_Name: Capsule
   m_TagString: Untagged
@@ -1737,6 +1746,20 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1067963597}
   m_Mesh: {fileID: 10208, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &1067963602
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1067963597}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1203d8350ac87ea3d929586bdaf82064, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHP: 100
+  speed: 5
 --- !u!1 &1139995231
 GameObject:
   m_ObjectHideFlags: 0
@@ -2085,6 +2108,10 @@ PrefabInstance:
       propertyPath: arm
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1541289665658896940, guid: 20756136161fc6fd591f7737e057ad64, type: 3}
+      propertyPath: player
+      value: 
+      objectReference: {fileID: 1161304484}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 20756136161fc6fd591f7737e057ad64, type: 3}
 --- !u!1 &1209951578
