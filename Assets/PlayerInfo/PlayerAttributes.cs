@@ -4,8 +4,9 @@ using UnityEngine;
 
 public class PlayerAttributes : MonoBehaviour
 {
-    public Transform leftArm;
-    public Transform rightArm;
+    private Transform leftArm;
+    private Transform rightArm;
+    private Transform body;
     void Start()
     {
         
