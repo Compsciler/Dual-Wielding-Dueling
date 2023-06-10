@@ -6,57 +6,61 @@ public class PlayerMovement : MonoBehaviour
 {
     public float moveSpeed;
 
+    public float jumpForce;
+    public float jumpTimer;
+    public float airPenalty;
+
+    public float drag;
+
     public Transform orientation;
     
-    float hI;
-    float vI;
+    float horizontalInput;
+    float verticalInput;
 
     Vector3 dir;
 
     Rigidbody rb;
 
     public float playerHeight;
-    public KeyCode jK;
+    public KeyCode jumpKey;
     public LayerMask whatIsGround;
-    public float jF;
-    public float jC;
-    public float air;
+
     bool grounded;
-    bool cJ;
-    public float drag;
+    bool canJump;
     // Start is called before the first frame update
     void Start()
     {
+        
         rb=GetComponent<Rigidbody>();
         rb.freezeRotation = true;
-        cJ = true;
+        canJump = true;
     }
 
     // Update is called once per frame
 
     private void MyInput()
     {
-        hI = Input.GetAxisRaw("Horizontal");
-        vI = Input.GetAxisRaw("Vertical");
+        horizontalInput = Input.GetAxisRaw("Horizontal");
+        verticalInput = Input.GetAxisRaw("Vertical");
 
-        if(grounded && Input.GetKey(jK) && cJ)
+        if(grounded && Input.GetKey(jumpKey) && canJump)
         {
-            cJ = false;
+            canJump = false;
             Jump();
-            Invoke(nameof(reset), jC);
+            Invoke(nameof(reset), jumpTimer);
         }
     }
 
     private void MovePlayer()
     {
-        dir = orientation.forward * vI + orientation.right * hI;
+        dir = orientation.forward * verticalInput + orientation.right * horizontalInput;
         if(grounded)
         {
             rb.AddForce(dir.normalized*moveSpeed*10f,ForceMode.Force);
         }
         else
         {
-            rb.AddForce(dir.normalized*moveSpeed*10f*air,ForceMode.Force);
+            rb.AddForce(dir.normalized*moveSpeed*10f*airPenalty,ForceMode.Force);
         }
     }
 
@@ -96,12 +100,12 @@ public class PlayerMovement : MonoBehaviour
     private void Jump()
     {
         rb.velocity = new Vector3(rb.velocity.x,0f,rb.velocity.z);
-        rb.AddForce(transform.up*jF,ForceMode.Impulse);
+        rb.AddForce(transform.up*jumpForce,ForceMode.Impulse);
     }
 
     private void reset()
     {
-        cJ = true;
+        canJump = true;
     }
 
     public bool isGrounded(){
