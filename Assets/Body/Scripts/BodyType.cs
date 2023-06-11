@@ -7,7 +7,12 @@ public class BodyType : MonoBehaviour
     // Start is called before the first frame update
     public float maxHP;
     private float curHP;
-    public float speed;
+    public float moveSpeed;
+
+    public float jumpForce;
+    public float airPenalty;
+
+    public float drag;
     void Start()
     {
         curHP=maxHP;
