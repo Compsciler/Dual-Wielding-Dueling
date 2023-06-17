@@ -1,14 +1,9 @@
 using UnityEngine;
 using System;
-using TMPro;
-using UnityEngine.UI;
 
 public class PulseGun : WeaponArm {
 
     public float launch;
-
-    [SerializeField] TMP_Text pulseGunAmmoText;
-    [SerializeField] Image pulseGunReloadImage;
 
     [SerializeField] ParticleSystem pulseParticles;
 
@@ -24,11 +19,5 @@ public class PulseGun : WeaponArm {
     protected override void Update()
     {
         base.Update();
-        
-        pulseGunAmmoText.text = curBullets.ToString();
-        if (curBullets == 0)
-        {
-            pulseGunReloadImage.fillAmount = timeLeft / reloadTime;
-        }
     }
 }

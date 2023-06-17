@@ -1,6 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
+using UnityEngine.UI;
+using System;
 
 public struct CrosshairData
 {
@@ -16,9 +19,11 @@ public abstract class WeaponArm: MonoBehaviour
     public Sprite weaponIcon;
     public int maxBullets;
     protected int curBullets;
+    public int CurBullets => curBullets;
     public float reloadTime;
     public float secsPerShot;
     protected float timeLeft;
+    public float TimeLeft => timeLeft;
     private float shotTimeLeft;
     public CrosshairData defCrosshair;
     public Transform gunTip, player;
@@ -26,7 +31,9 @@ public abstract class WeaponArm: MonoBehaviour
     protected Transform cam;
     private bool firing;
     public int arm;
-    
+
+    public Action OnAmmoUpdated;
+
     void Start()
     {
         curBullets=maxBullets;
@@ -53,6 +60,8 @@ public abstract class WeaponArm: MonoBehaviour
         {
             curBullets=maxBullets;
         }
+
+        OnAmmoUpdated?.Invoke();
     }
 
     void LateUpdate()
