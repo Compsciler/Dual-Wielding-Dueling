@@ -8,17 +8,25 @@ public class SpeedrunTimer : MonoBehaviour
 {
     [SerializeField] TMP_Text timerText;
 
-    private float timer;
-    private bool timerActive = true;
+    private float timer = 0f;
+    private bool timerActive = false;
 
     void Start()
     {
+        PlayerCam.OnCameraPositionUpdated += StartTimerForFirstTime;
         DummyTarget.OnDummyHit += StopTimer;
     }
 
     void OnDestroy()
     {
+        PlayerCam.OnCameraPositionUpdated -= StartTimerForFirstTime;
         DummyTarget.OnDummyHit -= StopTimer;
+    }
+
+    void StartTimerForFirstTime()
+    {
+        if (timer != 0f) { return; }
+        timerActive = true;
     }
 
     void StopTimer()
