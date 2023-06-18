@@ -45,7 +45,7 @@ public class GrapplingGun : WeaponArm {
             lr.positionCount = 2;
             currentGrapplePosition = gunTip.position;
             Vector3 launch = CalculateJumpVelocity(currentGrapplePosition,grapplePoint);
-            player.GetComponent<Rigidbody>().velocity+=launch;
+            // player.GetComponent<Rigidbody>().velocity+=launch;  // Commented out to keep grappling "realistic"
             base.Fire();
         }
     }

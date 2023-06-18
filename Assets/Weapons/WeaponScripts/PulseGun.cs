@@ -1,6 +1,5 @@
 using UnityEngine;
 
-
 public class PulseGun : WeaponArm {
 
     public float launch;
@@ -14,6 +13,7 @@ public class PulseGun : WeaponArm {
         }
     }
 
+
     public override void Fire(){
         Vector3 v = cam.forward;
         v/= - v.magnitude;
@@ -21,4 +21,5 @@ public class PulseGun : WeaponArm {
         base.Fire();
         pulseParticles.Play();
     }
+
 }

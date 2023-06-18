@@ -8,17 +8,29 @@ public class SpeedrunTimer : MonoBehaviour
 {
     [SerializeField] TMP_Text timerText;
 
-    private float timer;
-    private bool timerActive = true;
+    private float timer = 0f;
+    private bool timerActive = false;
+
+    List<DummyTarget> dummies = new List<DummyTarget>();
 
     void Start()
     {
-        DummyTarget.OnDummyHit += StopTimer;
+        PlayerCam.OnCameraPositionUpdated += StartTimerForFirstTime;
+        DummyTarget.OnDummySpawned += AddDummyToList;
+        DummyTarget.OnDummyHit += RemoveDummyFromList;
     }
 
     void OnDestroy()
     {
-        DummyTarget.OnDummyHit -= StopTimer;
+        PlayerCam.OnCameraPositionUpdated -= StartTimerForFirstTime;
+        DummyTarget.OnDummySpawned -= AddDummyToList;
+        DummyTarget.OnDummyHit -= RemoveDummyFromList;
+    }
+
+    void StartTimerForFirstTime()
+    {
+        if (timer != 0f) { return; }
+        timerActive = true;
     }
 
     void StopTimer()
@@ -37,6 +49,21 @@ public class SpeedrunTimer : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.R))
         {
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        }
+    }
+
+    void AddDummyToList(DummyTarget dummy)
+    {
+        dummies.Add(dummy);
+    }
+
+    void RemoveDummyFromList(DummyTarget dummy)
+    {
+        dummies.Remove(dummy);
+
+        if (dummies.Count == 0)
+        {
+            StopTimer();
         }
     }
 }

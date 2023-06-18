@@ -1,6 +1,7 @@
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
+using System;
 
 public class WeaponArm: MonoBehaviour
 {
@@ -8,6 +9,7 @@ public class WeaponArm: MonoBehaviour
     public string weaponName;
     public int maxBullets;
     protected int curBullets;
+    public int CurBullets => curBullets;
     public float reloadTime;
     public float secsPerShot;
     protected float timeLeft;
@@ -23,6 +25,8 @@ public class WeaponArm: MonoBehaviour
     Image gunReloadImage;
 
     public Transform throwable;
+    
+    public Action OnAmmoUpdated;
     
     protected virtual void Start()
     {
@@ -76,6 +80,7 @@ public class WeaponArm: MonoBehaviour
         {
             gunReloadImage.fillAmount = timeLeft / reloadTime;
         }
+        OnAmmoUpdated?.Invoke();
     }
 
     void LateUpdate()

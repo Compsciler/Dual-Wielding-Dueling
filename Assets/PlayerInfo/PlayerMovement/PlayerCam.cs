@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -12,6 +13,9 @@ public class PlayerCam : MonoBehaviour
 
     float xRotation;
     float yRotation;
+
+    public static Action OnCameraPositionUpdated;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -24,6 +28,11 @@ public class PlayerCam : MonoBehaviour
     {
         float mX = Input.GetAxisRaw("Mouse X") * Time.deltaTime * sX;
         float mY = Input.GetAxisRaw("Mouse Y") * Time.deltaTime * sY;
+
+        if (mX != 0f || mY != 0f || Input.GetMouseButtonDown(0) || Input.GetMouseButtonDown(1))
+        {
+            OnCameraPositionUpdated?.Invoke();
+        }
 
         yRotation += mX;
         xRotation -= mY;
