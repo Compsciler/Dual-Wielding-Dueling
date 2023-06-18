@@ -2108,7 +2108,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHP: 100
-  speed: 5
+  moveSpeed: 7
+  jumpForce: 20
+  airPenalty: 0.25
+  drag: 5
 --- !u!1 &1139995231
 GameObject:
   m_ObjectHideFlags: 0
@@ -2355,15 +2358,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ffc39730ea8d62f4db3593edd343ec04, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 12
-  jumpForce: 35
   jumpTimer: 0.1
-  airPenalty: 0.2
-  drag: 5
+  body: {fileID: 1995336179}
   orientation: {fileID: 1515912741}
-  playerHeight: 2
   jumpKey: 32
-  whatIsGround:
+  groundLayer:
     serializedVersion: 2
     m_Bits: 8
 --- !u!1 &1164757554
