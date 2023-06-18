@@ -4,14 +4,13 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
-    private float moveSpeed;    
-    private float jumpForce;
+    public float moveSpeed;
+
+    public float jumpForce;
     public float jumpTimer;
-    private float airModifier;
+    public float airPenalty;
 
-    private float drag;
-
-    public Transform body;
+    public float drag;
 
     public Transform orientation;
     
@@ -22,9 +21,9 @@ public class PlayerMovement : MonoBehaviour
 
     Rigidbody rb;
 
-    private float playerHeight;
+    public float playerHeight;
     public KeyCode jumpKey;
-    public LayerMask groundLayer;
+    public LayerMask whatIsGround;
 
     bool grounded;
     bool canJump;
@@ -35,12 +34,6 @@ public class PlayerMovement : MonoBehaviour
         rb=GetComponent<Rigidbody>();
         rb.freezeRotation = true;
         canJump = true;
-        BodyType bt = body.GetChild(0).GetComponent<BodyType>();
-        moveSpeed = bt.moveSpeed;
-        jumpForce = bt.jumpForce;
-        airModifier = (1-bt.airPenalty);
-        drag = bt.drag;
-        playerHeight = body.GetChild(0).GetComponent<CapsuleCollider>().height*body.GetChild(0).transform.localScale.y;
     }
 
     // Update is called once per frame
@@ -67,13 +60,13 @@ public class PlayerMovement : MonoBehaviour
         }
         else
         {
-            rb.AddForce(dir.normalized*moveSpeed*10f*airModifier,ForceMode.Force);
+            rb.AddForce(dir.normalized*moveSpeed*10f*airPenalty,ForceMode.Force);
         }
     }
 
     void Update()
     {
-        grounded = Physics.Raycast(transform.position, Vector3.down, playerHeight * 0.5f + 0.2f, groundLayer);
+        grounded = Physics.Raycast(transform.position, Vector3.down, playerHeight * 0.5f + 0.2f, whatIsGround);
 
         MyInput();
 

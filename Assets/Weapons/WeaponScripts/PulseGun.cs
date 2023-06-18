@@ -1,17 +1,11 @@
 using UnityEngine;
+using System;
 
 public class PulseGun : WeaponArm {
 
     public float launch;
-    ParticleSystem pulseParticles;
 
-    protected override void Start()
-    {
-        base.Start();
-        {
-            pulseParticles=gunTip.Find("ShotParticles").GetComponentInChildren<ParticleSystem>();
-        }
-    }
+    [SerializeField] ParticleSystem pulseParticles;
 
 
     public override void Fire(){
@@ -22,4 +16,8 @@ public class PulseGun : WeaponArm {
         pulseParticles.Play();
     }
 
+    protected override void Update()
+    {
+        base.Update();
+    }
 }
