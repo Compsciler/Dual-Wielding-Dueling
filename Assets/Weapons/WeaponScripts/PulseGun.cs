@@ -1,17 +1,18 @@
 using UnityEngine;
-using System;
-using TMPro;
-using UnityEngine.UI;
+
 
 public class PulseGun : WeaponArm {
 
     public float launch;
+    ParticleSystem pulseParticles;
 
-    [SerializeField] TMP_Text pulseGunAmmoText;
-    [SerializeField] Image pulseGunReloadImage;
-
-    [SerializeField] ParticleSystem pulseParticles;
-
+    protected override void Start()
+    {
+        base.Start();
+        {
+            pulseParticles=gunTip.Find("ShotParticles").GetComponentInChildren<ParticleSystem>();
+        }
+    }
 
     public override void Fire(){
         Vector3 v = cam.forward;
@@ -19,16 +20,5 @@ public class PulseGun : WeaponArm {
         player.GetComponent<Rigidbody>().AddForce(v*launch,ForceMode.Impulse);
         base.Fire();
         pulseParticles.Play();
-    }
-
-    protected override void Update()
-    {
-        base.Update();
-        
-        pulseGunAmmoText.text = curBullets.ToString();
-        if (curBullets == 0)
-        {
-            pulseGunReloadImage.fillAmount = timeLeft / reloadTime;
-        }
     }
 }
