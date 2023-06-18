@@ -11,16 +11,20 @@ public class SpeedrunTimer : MonoBehaviour
     private float timer = 0f;
     private bool timerActive = false;
 
+    List<DummyTarget> dummies = new List<DummyTarget>();
+
     void Start()
     {
         PlayerCam.OnCameraPositionUpdated += StartTimerForFirstTime;
-        DummyTarget.OnDummyHit += StopTimer;
+        DummyTarget.OnDummySpawned += AddDummyToList;
+        DummyTarget.OnDummyHit += RemoveDummyFromList;
     }
 
     void OnDestroy()
     {
         PlayerCam.OnCameraPositionUpdated -= StartTimerForFirstTime;
-        DummyTarget.OnDummyHit -= StopTimer;
+        DummyTarget.OnDummySpawned -= AddDummyToList;
+        DummyTarget.OnDummyHit -= RemoveDummyFromList;
     }
 
     void StartTimerForFirstTime()
@@ -45,6 +49,21 @@ public class SpeedrunTimer : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.R))
         {
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        }
+    }
+
+    void AddDummyToList(DummyTarget dummy)
+    {
+        dummies.Add(dummy);
+    }
+
+    void RemoveDummyFromList(DummyTarget dummy)
+    {
+        dummies.Remove(dummy);
+
+        if (dummies.Count == 0)
+        {
+            StopTimer();
         }
     }
 }
