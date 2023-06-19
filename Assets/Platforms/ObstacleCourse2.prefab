@@ -341,7 +341,7 @@ PrefabInstance:
     - target: {fileID: 7005456384748863917, guid: 75b79f12612ed1846993288399c4aab5, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 0dc4c6c20c21ce6499f52054d9415c19, type: 2}
+      objectReference: {fileID: 2100000, guid: 76c8225a555b2ad4bbb8d38138ef8696, type: 2}
     - target: {fileID: 7005456384748863919, guid: 75b79f12612ed1846993288399c4aab5, type: 3}
       propertyPath: m_RootOrder
       value: 0
@@ -419,7 +419,7 @@ PrefabInstance:
     - target: {fileID: 7005456384748863917, guid: 75b79f12612ed1846993288399c4aab5, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 0dc4c6c20c21ce6499f52054d9415c19, type: 2}
+      objectReference: {fileID: 2100000, guid: 76c8225a555b2ad4bbb8d38138ef8696, type: 2}
     - target: {fileID: 7005456384748863919, guid: 75b79f12612ed1846993288399c4aab5, type: 3}
       propertyPath: m_RootOrder
       value: 2
@@ -497,7 +497,7 @@ PrefabInstance:
     - target: {fileID: 7005456384748863917, guid: 75b79f12612ed1846993288399c4aab5, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 0dc4c6c20c21ce6499f52054d9415c19, type: 2}
+      objectReference: {fileID: 2100000, guid: 76c8225a555b2ad4bbb8d38138ef8696, type: 2}
     - target: {fileID: 7005456384748863919, guid: 75b79f12612ed1846993288399c4aab5, type: 3}
       propertyPath: m_RootOrder
       value: 3
@@ -2469,7 +2469,7 @@ PrefabInstance:
     - target: {fileID: 7005456384748863917, guid: 75b79f12612ed1846993288399c4aab5, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 0dc4c6c20c21ce6499f52054d9415c19, type: 2}
+      objectReference: {fileID: 2100000, guid: 76c8225a555b2ad4bbb8d38138ef8696, type: 2}
     - target: {fileID: 7005456384748863919, guid: 75b79f12612ed1846993288399c4aab5, type: 3}
       propertyPath: m_RootOrder
       value: 1
