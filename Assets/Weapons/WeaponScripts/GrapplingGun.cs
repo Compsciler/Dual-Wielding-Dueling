@@ -21,9 +21,6 @@ public class GrapplingGun : WeaponArm {
         lr.positionCount = 0;
     }
 
-    /// <summary>
-    /// Call whenever we want to start a grapple
-    /// </summary>
     public override void Fire() {
         RaycastHit hit;
         if (Physics.Raycast(cam.position, cam.forward, out hit, maxDistance, whatIsGrappleable)) {
@@ -72,9 +69,6 @@ public class GrapplingGun : WeaponArm {
     }
 
 
-    /// <summary>
-    /// Call whenever we want to stop a grapple
-    /// </summary>
     public override void Release() {
         lr.positionCount = 0;
         Destroy(joint);
