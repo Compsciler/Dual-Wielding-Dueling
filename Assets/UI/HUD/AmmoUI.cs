@@ -11,7 +11,7 @@ public class AmmoUI : MonoBehaviour
     [SerializeField] TMP_Text pulseGunAmmoText;
     [SerializeField] Image pulseGunReloadImage;
 
-    void Start()
+    void Awake()
     {
         weaponArm.OnAmmoUpdated += UpdateAmmoDisplay;
     }
