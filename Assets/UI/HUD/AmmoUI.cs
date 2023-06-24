@@ -8,8 +8,8 @@ public class AmmoUI : MonoBehaviour
 {
     [SerializeField] WeaponArm weaponArm;
     
-    [SerializeField] TMP_Text pulseGunAmmoText;
-    [SerializeField] Image pulseGunReloadImage;
+    [SerializeField] TMP_Text gunAmmoText;
+    [SerializeField] Image gunReloadImage;
 
     void Awake()
     {
@@ -23,10 +23,10 @@ public class AmmoUI : MonoBehaviour
 
     private void UpdateAmmoDisplay()
     {
-        pulseGunAmmoText.text = weaponArm.CurBullets.ToString();
+        gunAmmoText.text = weaponArm.CurBullets.ToString();
         if (weaponArm.CurBullets == 0)
         {
-            pulseGunReloadImage.fillAmount = weaponArm.TimeLeft / weaponArm.reloadTime;
+            gunReloadImage.fillAmount = weaponArm.TimeLeft / weaponArm.reloadTime;
         }
     }
 }

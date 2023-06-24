@@ -15,9 +15,4 @@ public class PulseGun : WeaponArm {
         base.Fire();
         pulseParticles.Play();
     }
-
-    protected override void Update()
-    {
-        base.Update();
-    }
 }
