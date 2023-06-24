@@ -26,7 +26,9 @@ public abstract class WeaponArm: MonoBehaviour
     public float TimeLeft => timeLeft;
     private float shotTimeLeft;
     public CrosshairData defCrosshair;
-    public Transform gunTip, player;
+    protected Transform gunTip;
+
+    protected Transform player;
 
     protected Transform cam;
     private bool firing;
@@ -34,13 +36,15 @@ public abstract class WeaponArm: MonoBehaviour
 
     public Action OnAmmoUpdated;
 
-    void Start()
+    protected virtual void Start()
     {
         curBullets=maxBullets;
         timeLeft=reloadTime;
         shotTimeLeft=secsPerShot;
         firing = false;
         cam=Camera.main.transform;
+        player=transform.parent.parent.parent;
+        gunTip=transform.Find("GunTip");
     }
 
     // Update is called once per frame
@@ -64,7 +68,7 @@ public abstract class WeaponArm: MonoBehaviour
         OnAmmoUpdated?.Invoke();
     }
 
-    void LateUpdate()
+    protected virtual void LateUpdate()
     {
         if (Input.GetMouseButtonDown(arm)&&curBullets>0&&!firing&&shotTimeLeft<0) 
         {
