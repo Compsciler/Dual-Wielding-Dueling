@@ -13,7 +13,7 @@ public class SpeedrunTimer : MonoBehaviour
 
     List<DummyTarget> dummies = new List<DummyTarget>();
 
-    void Start()
+    void Awake()
     {
         PlayerCam.OnCameraPositionUpdated += StartTimerForFirstTime;
         DummyTarget.OnDummySpawned += AddDummyToList;
