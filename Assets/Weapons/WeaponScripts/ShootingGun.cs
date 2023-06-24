@@ -7,6 +7,14 @@ public class ShootingGun : WeaponArm
     public GameObject ammo; 
     public float ammoSpeed;
 
+    public delegate IEnumerator CoroutineDelegate(GameObject projectile, float delay);
+    private CoroutineDelegate destroyProjectileDelegate;
+
+    void Awake()
+    {
+        destroyProjectileDelegate = DestroyProjectile;
+    }
+
     public override void Fire()
     {
         base.Fire();
@@ -15,7 +23,7 @@ public class ShootingGun : WeaponArm
         projectile.transform.rotation = Quaternion.Euler(transform.eulerAngles.x, transform.eulerAngles.y, transform.eulerAngles.z);
         projectile.transform.position = gunTip.transform.position;
         projectile.GetComponent<Rigidbody>().AddForce(gunTip.forward * ammoSpeed, ForceMode.Impulse);
-        StartCoroutine("DestroyProjectile");
+        StartCoroutine(destroyProjectileDelegate(projectile, 0.1f));
     }
     private IEnumerator DestroyProjectile (GameObject projectile, float delay)
     {
