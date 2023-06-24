@@ -55,7 +55,6 @@ public class SpeedrunTimer : MonoBehaviour
     void AddDummyToList(DummyTarget dummy)
     {
         dummies.Add(dummy);
-        Debug.Log(dummies.Count);
     }
 
     void RemoveDummyFromList(DummyTarget dummy)
