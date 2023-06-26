@@ -148,13 +148,15 @@ MonoBehaviour:
   maxBullets: 1
   reloadTime: 0
   secsPerShot: 0.25
-  gunTip: {fileID: 1541289665608688152}
-  player: {fileID: 0}
-  arm: 1
   whatIsGrappleable:
     serializedVersion: 2
     m_Bits: 8
-  maxDistance: 50
+  maxDistance: 150
+  spring: 4.5
+  damper: 1
+  massScale: 4.5
+  crosshairColorGrappleable: {r: 0.972549, g: 0, b: 0, a: 1}
+  crosshairColorNotGrappleable: {r: 0.93333334, g: 0.93333334, b: 0.93333334, a: 1}
 --- !u!120 &1541289665658896931
 LineRenderer:
   m_ObjectHideFlags: 0
@@ -201,7 +203,7 @@ LineRenderer:
   - {x: 0, y: 0, z: 1}
   m_Parameters:
     serializedVersion: 3
-    widthMultiplier: 1
+    widthMultiplier: 0.25
     widthCurve:
       serializedVersion: 2
       m_Curve:

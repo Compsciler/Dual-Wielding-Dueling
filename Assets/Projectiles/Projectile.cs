@@ -4,15 +4,18 @@ using UnityEngine;
 
 public class Projectile : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    [HideInInspector] public Transform shooter;
+    void OnCollisionEnter(Collision collision)
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        Entity entity = collision.transform.GetComponent<Entity>();
+        if(entity==shooter.GetComponentInParent<Entity>())
+        {
+            return;
+        }
+        if(entity != null)
+        {
+            entity.TakeDamage(5);
+        }
+        Destroy(gameObject);
     }
 }

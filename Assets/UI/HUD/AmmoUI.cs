@@ -6,13 +6,19 @@ using UnityEngine.UI;
 
 public class AmmoUI : MonoBehaviour
 {
-    [SerializeField] WeaponArm weaponArm;
+    private WeaponArm weaponArm;
     
     [SerializeField] TMP_Text gunAmmoText;
     [SerializeField] Image gunReloadImage;
 
     void Awake()
     {
+        string lr = "Right";
+        if(transform.name.Equals("Left Gun Reload"))
+        {
+            lr = "Left";
+        }
+        weaponArm=transform.parent.parent.Find("CameraPosition").Find(lr+" Arm").GetComponentInChildren<WeaponArm>();
         weaponArm.OnAmmoUpdated += UpdateAmmoDisplay;
     }
 

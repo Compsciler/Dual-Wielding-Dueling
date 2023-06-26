@@ -11,12 +11,18 @@ public class GrapplingGun : WeaponArm {
     public float maxDistance;
     private SpringJoint joint;
 
-    [SerializeField] Image crosshairImage;
+    [SerializeField] float spring;
+    [SerializeField] float damper;
+    [SerializeField] float massScale;
+
+    private Image crosshairImage;
     [SerializeField] Color crosshairColorGrappleable;
     [SerializeField] Color crosshairColorNotGrappleable;
-    [SerializeField] TMP_Text notGrappleableDistanceText;
+    private TMP_Text notGrappleableDistanceText;
 
     protected override void Start() {
+        crosshairImage=transform.parent.parent.parent.Find("Display").Find("Crosshair").GetComponent<Image>();
+        notGrappleableDistanceText=transform.parent.parent.parent.Find("Display").Find("Not Grappleable Distance").GetComponent<TMP_Text>();
         base.Start();
         lr = GetComponent<LineRenderer>();
         lr.positionCount = 0;
@@ -33,13 +39,13 @@ public class GrapplingGun : WeaponArm {
             float distanceFromPoint = Vector3.Distance(player.position, grapplePoint);
 
             //The distance grapple will try to keep from grapple point. 
-            joint.maxDistance = distanceFromPoint * 0.25f;
+            joint.maxDistance = distanceFromPoint * 0f;
             joint.minDistance = 0f;
 
             //Adjust these values to fit your game.
-            joint.spring = 4.5f;
-            joint.damper = 1f;
-            joint.massScale = 4.5f;
+            joint.spring = spring;
+            joint.damper = damper;
+            joint.massScale = massScale;
             lr.positionCount = 2;
             currentGrapplePosition = gunTip.position;
             Vector3 launch = CalculateJumpVelocity(currentGrapplePosition,grapplePoint);

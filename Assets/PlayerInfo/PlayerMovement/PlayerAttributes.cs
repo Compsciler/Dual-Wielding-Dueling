@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerMovement : MonoBehaviour
+public class PlayerAttributes : MonoBehaviour, Entity
 {
     private float moveSpeed;    
     private float jumpForce;
@@ -10,8 +10,7 @@ public class PlayerMovement : MonoBehaviour
     private float airModifier;
 
     private float drag;
-
-    public Transform body;
+    protected Transform body;
 
     public Transform orientation;
     
@@ -35,7 +34,8 @@ public class PlayerMovement : MonoBehaviour
         rb=GetComponent<Rigidbody>();
         rb.freezeRotation = true;
         canJump = true;
-        BodyType bt = body.GetChild(0).GetComponent<BodyType>();
+        body=transform.Find("Body");
+        BodyType bt = body.GetComponentInChildren<BodyType>();
         moveSpeed = bt.moveSpeed;
         jumpForce = bt.jumpForce;
         airModifier = (1-bt.airPenalty);
@@ -73,7 +73,7 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     {
-        grounded = Physics.Raycast(transform.position, Vector3.down, playerHeight * 0.5f + 0.2f, groundLayer);
+        grounded = Physics.Raycast(transform.position, Vector3.down, playerHeight * 0.5f + 0.01f, groundLayer);
 
         MyInput();
 
@@ -102,6 +102,11 @@ public class PlayerMovement : MonoBehaviour
             Vector3 l = flat.normalized*moveSpeed;
             rb.velocity = new Vector3(l.x,rb.velocity.y,l.z);
         }
+        Debug.Log(dir);
+        if(dir.Equals(Vector3.zero) && grounded)
+        {
+            rb.velocity=Vector3.zero;
+        }
     }
 
     private void Jump()
@@ -115,7 +120,12 @@ public class PlayerMovement : MonoBehaviour
         canJump = true;
     }
 
-    public bool isGrounded(){
+    public bool isGrounded()
+    {
         return grounded;
+    }
+    public void TakeDamage(float dmg)
+    {
+        body.GetComponentInChildren<BodyType>().TakeDamage(dmg);
     }
 }

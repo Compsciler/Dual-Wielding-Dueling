@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DummyTarget : MonoBehaviour
+public class DummyTarget : MonoBehaviour, Entity
 {
     [SerializeField] GameObject hitParticlesPrefab;
 
@@ -17,22 +17,22 @@ public class DummyTarget : MonoBehaviour
 
     void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.TryGetComponent<PlayerMovement>(out PlayerMovement player))
+        if (collision.gameObject.TryGetComponent<PlayerAttributes>(out PlayerAttributes player))
         {
-            TakeDamage();
+            TakeDamage(1);
             OnDummyHit?.Invoke(this);
             return;
         }
 
         if (collision.gameObject.TryGetComponent<Projectile>(out Projectile projectile))
         {
-            TakeDamage();
+            TakeDamage(1);
             OnDummyHit?.Invoke(this);
             return;
         }
     }
 
-    void TakeDamage()
+    public void TakeDamage(float dmg)
     {
         Instantiate(hitParticlesPrefab, transform.position, transform.rotation);
         Destroy(gameObject);

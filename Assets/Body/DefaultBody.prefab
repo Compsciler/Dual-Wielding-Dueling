@@ -112,7 +112,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHP: 100
-  moveSpeed: 7
+  moveSpeed: 10
   jumpForce: 20
-  airPenalty: 0.25
-  drag: 5
+  airPenalty: 0.75
+  drag: 4
+  airDrag: 1.5

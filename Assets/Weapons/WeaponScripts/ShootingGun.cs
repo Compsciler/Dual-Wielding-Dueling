@@ -19,6 +19,7 @@ public class ShootingGun : WeaponArm
     {
         base.Fire();
         GameObject projectile = Instantiate(ammo);
+        projectile.GetComponent<Projectile>().shooter=transform;
         Physics.IgnoreCollision(projectile.GetComponent<Collider>(), gunTip.parent.GetComponent<Collider>());
         projectile.transform.rotation = Quaternion.Euler(transform.eulerAngles.x, transform.eulerAngles.y, transform.eulerAngles.z);
         projectile.transform.position = gunTip.transform.position;

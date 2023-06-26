@@ -29,7 +29,7 @@ public class BodyType : MonoBehaviour
 
     }
 
-    public virtual void takeDamage(float dmg)
+    public virtual void TakeDamage(float dmg)
     {
         curHP-=dmg;
         if(curHP<=0)

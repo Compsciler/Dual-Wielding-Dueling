@@ -32,7 +32,7 @@ public abstract class WeaponArm: MonoBehaviour
 
     protected Transform cam;
     private bool firing;
-    public int arm;
+    protected int arm;
 
     public Action OnAmmoUpdated;
 
@@ -45,6 +45,7 @@ public abstract class WeaponArm: MonoBehaviour
         cam=Camera.main.transform;
         player=transform.parent.parent.parent;
         gunTip=transform.Find("GunTip");
+        arm = transform.parent.name.Equals("Right Arm") ? 1 : 0;
     }
 
     // Update is called once per frame
