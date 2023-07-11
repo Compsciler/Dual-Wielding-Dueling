@@ -148,15 +148,14 @@ MonoBehaviour:
   maxBullets: 1
   reloadTime: 0
   secsPerShot: 0.25
-  whatIsGrappleable:
-    serializedVersion: 2
-    m_Bits: 8
   maxDistance: 150
+  crosshairColor: {r: 0, g: 0, b: 0, a: 0}
+  grappleable:
+    serializedVersion: 2
+    m_Bits: 2147483647
   spring: 4.5
   damper: 1
   massScale: 4.5
-  crosshairColorGrappleable: {r: 0.972549, g: 0, b: 0, a: 1}
-  crosshairColorNotGrappleable: {r: 0.93333334, g: 0.93333334, b: 0.93333334, a: 1}
 --- !u!120 &1541289665658896931
 LineRenderer:
   m_ObjectHideFlags: 0

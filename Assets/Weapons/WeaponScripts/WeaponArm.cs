@@ -5,13 +5,6 @@ using TMPro;
 using UnityEngine.UI;
 using System;
 
-public struct CrosshairData
-{
-        public Sprite CrosshairSprite;
-        public int CrosshairSize;
-        public Color CrosshairColor;
-}
-
 public abstract class WeaponArm: MonoBehaviour
 {
     // Start is called before the first frame update
@@ -25,14 +18,18 @@ public abstract class WeaponArm: MonoBehaviour
     protected float timeLeft;
     public float TimeLeft => timeLeft;
     private float shotTimeLeft;
-    public CrosshairData defCrosshair;
     protected Transform gunTip;
 
     protected Transform player;
 
     protected Transform cam;
+    private Camera camDisplay;
     private bool firing;
     protected int arm;
+
+    [SerializeField] protected float maxDistance;
+
+    public Color crosshairColor;
 
     public Action OnAmmoUpdated;
 
@@ -46,6 +43,7 @@ public abstract class WeaponArm: MonoBehaviour
         player=transform.parent.parent.parent;
         gunTip=transform.Find("GunTip");
         arm = transform.parent.name.Equals("Right Arm") ? 1 : 0;
+        camDisplay=cam.GetComponent<Camera>();
     }
 
     // Update is called once per frame
@@ -100,5 +98,17 @@ public abstract class WeaponArm: MonoBehaviour
     public virtual void Release()
     {
         firing=false;
+    }
+    public virtual Vector3 GetCrosshair()
+    {
+        RaycastHit hit;
+        Vector3 spot=gunTip.forward*maxDistance;
+        if (Physics.Raycast(gunTip.position, gunTip.forward, out hit, maxDistance))
+        {
+            spot=hit.transform.position;
+        }
+        Vector3 screenPos = camDisplay.WorldToScreenPoint(spot);
+        Vector3 uiPos = new Vector3(screenPos.x, Screen.height - screenPos.y, screenPos.z);
+        return uiPos;
     }
 }

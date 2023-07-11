@@ -102,7 +102,6 @@ public class PlayerAttributes : MonoBehaviour, Entity
             Vector3 l = flat.normalized*moveSpeed;
             rb.velocity = new Vector3(l.x,rb.velocity.y,l.z);
         }
-        Debug.Log(dir);
         if(dir.Equals(Vector3.zero) && grounded)
         {
             rb.velocity=Vector3.zero;

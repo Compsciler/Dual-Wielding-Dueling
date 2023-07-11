@@ -9,7 +9,7 @@ public class PulseGun : WeaponArm {
 
 
     public override void Fire(){
-        Vector3 v = cam.forward;
+        Vector3 v = transform.forward;
         v/= - v.magnitude;
         player.GetComponent<Rigidbody>().AddForce(v*launch,ForceMode.Impulse);
         base.Fire();
