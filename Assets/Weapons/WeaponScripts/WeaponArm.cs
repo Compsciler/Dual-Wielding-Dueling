@@ -99,16 +99,14 @@ public abstract class WeaponArm: MonoBehaviour
     {
         firing=false;
     }
-    public virtual Vector3 GetCrosshair()
+    public virtual Vector3 GetTarget()
     {
         RaycastHit hit;
-        Vector3 spot=gunTip.forward*maxDistance;
+        Vector3 target=gunTip.forward*maxDistance;
         if (Physics.Raycast(gunTip.position, gunTip.forward, out hit, maxDistance))
         {
-            spot=hit.transform.position;
+            target=hit.transform.position;
         }
-        Vector3 screenPos = camDisplay.WorldToScreenPoint(spot);
-        Vector3 uiPos = new Vector3(screenPos.x, Screen.height - screenPos.y, screenPos.z);
-        return uiPos;
+        return target;
     }
 }

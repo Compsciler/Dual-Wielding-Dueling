@@ -22,8 +22,7 @@ public class Crosshair : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Vector3 spot=weaponArm.GetCrosshair();
-        Debug.Log(spot);
-        rt.anchoredPosition3D=spot;
+        Vector3 target=weaponArm.GetTarget();
+        Debug.Log(target);
     }
 }
