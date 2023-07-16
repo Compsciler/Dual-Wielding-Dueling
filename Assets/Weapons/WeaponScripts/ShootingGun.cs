@@ -6,7 +6,7 @@ public class ShootingGun : WeaponArm
 {
     public GameObject ammo; 
     public float ammoSpeed;
-
+    public float ammoLifeSpan;
     private Collider gc;
 
     public delegate IEnumerator CoroutineDelegate(GameObject projectile, float delay);
@@ -14,6 +14,7 @@ public class ShootingGun : WeaponArm
 
     protected override void Start()
     {
+        maxDistance=ammoSpeed*ammoLifeSpan;
         base.Start();
         destroyProjectileDelegate = DestroyProjectile;
         gc = gunTip.parent.GetComponent<Collider>();
@@ -28,7 +29,7 @@ public class ShootingGun : WeaponArm
         projectile.transform.rotation = Quaternion.Euler(transform.eulerAngles.x, transform.eulerAngles.y, transform.eulerAngles.z);
         projectile.transform.position = gunTip.transform.position;
         projectile.GetComponent<Rigidbody>().AddForce(gunTip.forward * ammoSpeed, ForceMode.Impulse);
-        StartCoroutine(destroyProjectileDelegate(projectile, 5f));
+        StartCoroutine(destroyProjectileDelegate(projectile, ammoLifeSpan));
     }
     private IEnumerator DestroyProjectile (GameObject projectile, float delay)
     {

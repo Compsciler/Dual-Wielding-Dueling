@@ -27,9 +27,7 @@ public abstract class WeaponArm: MonoBehaviour
     private bool firing;
     protected int arm;
 
-    [SerializeField] protected float maxDistance;
-
-    public Color crosshairColor;
+    [HideInInspector] protected float maxDistance;
 
     public Action OnAmmoUpdated;
 
@@ -99,14 +97,13 @@ public abstract class WeaponArm: MonoBehaviour
     {
         firing=false;
     }
-    public virtual Vector3 GetTarget()
+    public virtual Vector3? GetTarget()
     {
         RaycastHit hit;
-        Vector3 target=gunTip.forward*maxDistance;
         if (Physics.Raycast(gunTip.position, gunTip.forward, out hit, maxDistance))
         {
-            target=hit.transform.position;
+            return hit.point;
         }
-        return target;
+        return null;
     }
 }

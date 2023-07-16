@@ -10,19 +10,23 @@ public class GrapplingGun : WeaponArm {
     public LayerMask grappleable;
     private SpringJoint joint;
 
+    public float maxDist;
+
     [SerializeField] float spring;
     [SerializeField] float damper;
     [SerializeField] float massScale;
 
     protected override void Start() {
+        base.maxDistance=maxDist;
         base.Start();
+
         lr = GetComponent<LineRenderer>();
         lr.positionCount = 0;
     }
 
     public override void Fire() {
         RaycastHit hit;
-        if (Physics.Raycast(transform.position, transform.forward, out hit, maxDistance, grappleable)) {
+        if (Physics.Raycast(gunTip.position, gunTip.forward, out hit, maxDistance, grappleable)) {
             grapplePoint = hit.point;
             joint = player.gameObject.AddComponent<SpringJoint>();
             joint.autoConfigureConnectedAnchor = false;

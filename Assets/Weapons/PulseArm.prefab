@@ -148,13 +148,9 @@ MonoBehaviour:
   maxBullets: 5
   reloadTime: 5
   secsPerShot: 0.25
-  gunTip: {fileID: 2651326194250665747}
-  player: {fileID: 0}
-  arm: 0
-  launch: 0
-  pulseGunAmmoText: {fileID: 0}
-  pulseGunReloadImage: {fileID: 0}
-  pulseParticles: {fileID: 0}
+  launch: 20
+  maxDist: 10
+  pulseParticles: {fileID: 3280519133390621004, guid: a71be3e7990efb040a07565c43cbb198, type: 3}
 --- !u!1001 &8034937001653347320
 PrefabInstance:
   m_ObjectHideFlags: 0

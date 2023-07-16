@@ -12,12 +12,14 @@ public class PickUp : MonoBehaviour, Entity
     public float drag;
 
     public LayerMask ground;
-    private Rigidbody rb;
+    public Rigidbody rb
+    {
+        get => transform.GetComponent<Rigidbody>();
+    }
 
     private float hp=1;
     void Start()
     {
-        rb=transform.GetComponent<Rigidbody>();
         rb.drag=drag;
         GameObject go = Instantiate(item);
         Destroy(go.GetComponent<WeaponArm>());

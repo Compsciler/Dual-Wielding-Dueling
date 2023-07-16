@@ -10,7 +10,7 @@ public class PlayerAttributes : MonoBehaviour, Entity
     private float airModifier;
 
     private float drag;
-    protected Transform body;
+    protected BodyType body;
 
     public Transform orientation;
     
@@ -19,28 +19,31 @@ public class PlayerAttributes : MonoBehaviour, Entity
 
     Vector3 dir;
 
-    Rigidbody rb;
+    public Rigidbody rb
+    {
+        get => GetComponent<Rigidbody>();
+    }
 
     private float playerHeight;
     public KeyCode jumpKey;
+    public KeyCode leftDrop;
+    public KeyCode rightDrop;
     public LayerMask groundLayer;
-
+    public GameObject pickUp;
     bool grounded;
     bool canJump;
     // Start is called before the first frame update
     void Start()
     {
-        
-        rb=GetComponent<Rigidbody>();
         rb.freezeRotation = true;
         canJump = true;
-        body=transform.Find("Body");
-        BodyType bt = body.GetComponentInChildren<BodyType>();
-        moveSpeed = bt.moveSpeed;
-        jumpForce = bt.jumpForce;
-        airModifier = (1-bt.airPenalty);
-        drag = bt.drag;
-        playerHeight = body.GetChild(0).GetComponent<CapsuleCollider>().height*body.GetChild(0).transform.localScale.y;
+        Transform bodyTransform=transform.Find("Body");
+        body = bodyTransform.GetComponentInChildren<BodyType>();
+        moveSpeed = body.moveSpeed;
+        jumpForce = body.jumpForce;
+        airModifier = (1-body.airPenalty);
+        drag = body.drag;
+        playerHeight = bodyTransform.GetChild(0).GetComponent<CapsuleCollider>().height*bodyTransform.GetChild(0).transform.localScale.y;
     }
 
     // Update is called once per frame
@@ -55,6 +58,14 @@ public class PlayerAttributes : MonoBehaviour, Entity
             canJump = false;
             Jump();
             Invoke(nameof(reset), jumpTimer);
+        }
+        if(Input.GetKey(leftDrop))
+        {
+
+        }
+        if(Input.GetKey(rightDrop))
+        {
+
         }
     }
 
@@ -125,6 +136,29 @@ public class PlayerAttributes : MonoBehaviour, Entity
     }
     public void TakeDamage(float dmg)
     {
-        body.GetComponentInChildren<BodyType>().TakeDamage(dmg);
+        body.TakeDamage(dmg);
+        if(body.getHP()<=0)
+        {
+            Die();
+        }
+    }
+
+    public void DropGun(bool left)
+    {
+       GameObject go = transform.Find("CameraPosition").Find((left ? "Left" : "Right")+" Arm").GetChild(0).gameObject;
+       go.transform.SetParent(null);
+       GameObject pickUpGun = Instantiate(pickUp,transform.position,transform.rotation);
+       pickUpGun.GetComponent<PickUp>().item=go;
+    }
+
+    public void Die()
+    {
+        DropGun(true);
+        DropGun(false);
+    }
+
+    public void GrabGun(bool left)
+    {
+        
     }
 }
