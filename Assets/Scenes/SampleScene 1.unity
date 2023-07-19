@@ -310,11 +310,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 2651326194625948880, guid: 9dd1409f66c268d5c9aab987293a0476, type: 3}
   m_PrefabInstance: {fileID: 590003818}
   m_PrefabAsset: {fileID: 0}
---- !u!198 &146708015 stripped
-ParticleSystem:
-  m_CorrespondingSourceObject: {fileID: 2986787467212624771, guid: 9dd1409f66c268d5c9aab987293a0476, type: 3}
-  m_PrefabInstance: {fileID: 590003818}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &216815481
 GameObject:
   m_ObjectHideFlags: 0
@@ -757,7 +752,8 @@ MonoBehaviour:
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_fontSharedMaterials: []
+  m_fontSharedMaterials:
+  - {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
   m_fontColor32:
@@ -907,6 +903,10 @@ PrefabInstance:
       propertyPath: InitialModule.startSize.minScalar
       value: 0.1
       objectReference: {fileID: 0}
+    - target: {fileID: 2651326194625948876, guid: 9dd1409f66c268d5c9aab987293a0476, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
     - target: {fileID: 2651326194625948880, guid: 9dd1409f66c268d5c9aab987293a0476, type: 3}
       propertyPath: m_RootOrder
       value: 0
@@ -978,7 +978,7 @@ PrefabInstance:
     - target: {fileID: 2651326194625948881, guid: 9dd1409f66c268d5c9aab987293a0476, type: 3}
       propertyPath: pulseParticles
       value: 
-      objectReference: {fileID: 146708015}
+      objectReference: {fileID: 0}
     - target: {fileID: 2651326194625948881, guid: 9dd1409f66c268d5c9aab987293a0476, type: 3}
       propertyPath: pulseGunAmmoText
       value: 
@@ -2084,7 +2084,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -2378,9 +2378,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   jumpTimer: 0.1
-  body: {fileID: 1995336179}
   orientation: {fileID: 1515912741}
   jumpKey: 32
+  leftDrop: 0
+  rightDrop: 0
   groundLayer:
     serializedVersion: 2
     m_Bits: 8
@@ -2527,6 +2528,10 @@ PrefabInstance:
       propertyPath: crosshairColorNotGrappleable.r
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 1541289665658896942, guid: 20756136161fc6fd591f7737e057ad64, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 20756136161fc6fd591f7737e057ad64, type: 3}
 --- !u!1 &1209951578
@@ -2675,7 +2680,8 @@ MonoBehaviour:
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_fontSharedMaterials: []
+  m_fontSharedMaterials:
+  - {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
   m_fontColor32:
