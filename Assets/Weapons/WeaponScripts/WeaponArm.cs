@@ -33,6 +33,10 @@ public abstract class WeaponArm: MonoBehaviour
     public Action OnAmmoUpdated;
     public Action WeaponUpdated;
 
+    PickUp pickUpTargetPrev = null;
+    public static Action<PickUp, bool> OnPickUpEnter;
+    public static Action<PickUp, bool> OnPickUpExit;
+
     void Awake()
     {
         pickUp = (GameObject) Resources.Load("Pickup", typeof(GameObject));
@@ -69,6 +73,25 @@ public abstract class WeaponArm: MonoBehaviour
         }
 
         OnAmmoUpdated?.Invoke();
+
+        PickUp pickUpTarget = GetPickUpObj();
+        if (pickUpTarget == null)
+        {
+            if (pickUpTargetPrev != null)
+            {
+                OnPickUpExit?.Invoke(pickUpTargetPrev, left);
+            }
+            pickUpTargetPrev = null;
+        }
+        else if (pickUpTargetPrev != pickUpTarget)
+        {
+            if (pickUpTargetPrev != null)
+            {
+                OnPickUpExit?.Invoke(pickUpTargetPrev, left);
+            }
+            OnPickUpEnter?.Invoke(pickUpTarget, left);
+            pickUpTargetPrev = pickUpTarget;
+        }
     }
 
     protected virtual void LateUpdate()
@@ -116,6 +139,19 @@ public abstract class WeaponArm: MonoBehaviour
         }
         return null;
     }
+    public virtual PickUp GetPickUpObj()
+    {
+        RaycastHit hit;
+        if (Physics.Raycast(gunTip.position, gunTip.forward, out hit, maxPickupDistance))
+        {
+            if (hit.transform.TryGetComponent<PickUp>(out PickUp target))
+            {
+                return target;
+            }
+        }
+        return null;
+    }
+    
     public void Drop()
     {
         transform.SetParent(null);
@@ -124,16 +160,11 @@ public abstract class WeaponArm: MonoBehaviour
     }
     public void Grab()
     {
-        RaycastHit hit;
-        if(Physics.Raycast(gunTip.position,gunTip.forward,out hit,maxPickupDistance))
-        {
-            PickUp target = hit.transform.GetComponent<PickUp>();
-            if(target!=null)
-            {
-                target.Replace(transform);
-                Drop();
-                WeaponUpdated?.Invoke();
-            }
-        }
+        PickUp target = GetPickUpObj();
+        if (target == null) { return; }
+
+        target.Replace(transform);
+        Drop();
+        WeaponUpdated?.Invoke();
     }
 }
