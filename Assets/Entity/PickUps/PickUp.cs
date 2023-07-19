@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -18,6 +19,12 @@ public class PickUp : MonoBehaviour, Entity
     }
 
     private float hp=1;
+
+    Material leftOutlineMaterial;
+    Material rightOutlineMaterial;
+
+    [SerializeField] float outlineThickness = 1f;
+
     void Start()
     {
         rb.drag=drag;
@@ -30,12 +37,56 @@ public class PickUp : MonoBehaviour, Entity
         go.transform.GetComponent<Collider>().enabled=true;
         go.transform.localPosition=Vector3.zero;
         go.transform.rotation=Quaternion.identity;
+
+        Material[] materials = go.GetComponent<Renderer>().materials;
+        leftOutlineMaterial = materials[1];
+        rightOutlineMaterial = materials[2];
     }
 
     // Update is called once per frame
     void FixedUpdate()
     {
         Motion();
+    }
+
+    void OnEnable()
+    {
+        WeaponArm.OnPickUpEnter += HandlePickUpEnter;
+        WeaponArm.OnPickUpExit += HandlePickUpExit;
+    }
+
+    void OnDisable()
+    {
+        WeaponArm.OnPickUpEnter -= HandlePickUpEnter;
+        WeaponArm.OnPickUpExit -= HandlePickUpExit;
+    }
+
+    private void HandlePickUpEnter(PickUp target, bool left)
+    {
+        if (target != this) { return; }
+
+        if (left)
+        {
+            leftOutlineMaterial.SetFloat("_OutlineThickness", outlineThickness);
+        }
+        else
+        {
+            rightOutlineMaterial.SetFloat("_OutlineThickness", outlineThickness);
+        }
+    }
+
+    private void HandlePickUpExit(PickUp target, bool left)
+    {
+        if (target != this) { return; }
+
+        if (left)
+        {
+            leftOutlineMaterial.SetFloat("_OutlineThickness", 0f);
+        }
+        else
+        {
+            rightOutlineMaterial.SetFloat("_OutlineThickness", 0f);
+        }
     }
 
     public void TakeDamage(float dmg)
