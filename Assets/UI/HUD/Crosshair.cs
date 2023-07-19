@@ -7,11 +7,12 @@ public class Crosshair : MonoBehaviour
 {
     private WeaponArm weaponArm;
     private RectTransform rt;
+    private string lr;
     private Image img;
     // Start is called before the first frame update
     void Start()
     {
-        string lr = transform.name.Substring(0,4);
+        lr = transform.name.Substring(0,4);
         if(!lr.Equals("Left"))
         {
             lr="Right";
@@ -19,6 +20,7 @@ public class Crosshair : MonoBehaviour
         rt = transform.GetComponent<RectTransform>();
         img = transform.GetComponent<Image>();
         weaponArm=transform.parent.parent.parent.Find("CameraPosition").Find(lr+" Arm").GetComponentInChildren<WeaponArm>();
+        weaponArm.WeaponUpdated += SetArm;
     }
 
     // Update is called once per frame
@@ -36,5 +38,11 @@ public class Crosshair : MonoBehaviour
         {
             img.enabled=false;
         }
+    }
+
+    private void SetArm()
+    {
+        weaponArm=transform.parent.parent.parent.Find("CameraPosition").Find(lr+" Arm").GetComponentInChildren<WeaponArm>();
+        weaponArm.WeaponUpdated += SetArm;
     }
 }

@@ -19,18 +19,24 @@ public abstract class WeaponArm: MonoBehaviour
     public float TimeLeft => timeLeft;
     private float shotTimeLeft;
     protected Transform gunTip;
-
+    private GameObject pickUp;
     protected Transform player;
 
     protected Transform cam;
     private Camera camDisplay;
     private bool firing;
-    protected int arm;
+    protected bool left;
 
     [HideInInspector] protected float maxDistance;
+    private float maxPickupDistance = 10f;
 
     public Action OnAmmoUpdated;
+    public Action WeaponUpdated;
 
+    void Awake()
+    {
+        pickUp = (GameObject) Resources.Load("Pickup", typeof(GameObject));
+    }
     protected virtual void Start()
     {
         curBullets=maxBullets;
@@ -40,7 +46,7 @@ public abstract class WeaponArm: MonoBehaviour
         cam=Camera.main.transform;
         player=transform.parent.parent.parent;
         gunTip=transform.Find("GunTip");
-        arm = transform.parent.name.Equals("Right Arm") ? 1 : 0;
+        left = transform.parent.name.Equals("Left Arm") ? true : false;
         camDisplay=cam.GetComponent<Camera>();
     }
 
@@ -67,17 +73,21 @@ public abstract class WeaponArm: MonoBehaviour
 
     protected virtual void LateUpdate()
     {
-        if (Input.GetMouseButtonDown(arm)&&curBullets>0&&!firing&&shotTimeLeft<0) 
+        if (Input.GetMouseButtonDown(left?0:1)&&curBullets>0&&!firing&&shotTimeLeft<0) 
         {
             Fire();
         }
-        else if (Input.GetMouseButtonUp(arm)&&firing) 
+        else if (Input.GetMouseButtonUp(left?0:1)&&firing) 
         {
             Release();
         }
-        if(firing)
+        else if(firing)
         {
             Hold();
+        }
+        if((left&&Input.GetKeyDown(KeyCode.Q))||(!left&&Input.GetKeyDown(KeyCode.E)))
+        {
+            Grab();
         }
     }
     public virtual void Fire()
@@ -105,5 +115,25 @@ public abstract class WeaponArm: MonoBehaviour
             return hit.point;
         }
         return null;
+    }
+    public void Drop()
+    {
+        transform.SetParent(null);
+        GameObject pickUpGun = Instantiate(pickUp,transform.position,Quaternion.identity);
+        pickUpGun.GetComponent<PickUp>().item=gameObject;
+    }
+    public void Grab()
+    {
+        RaycastHit hit;
+        if(Physics.Raycast(gunTip.position,gunTip.forward,out hit,maxPickupDistance))
+        {
+            PickUp target = hit.transform.GetComponent<PickUp>();
+            if(target!=null)
+            {
+                target.Replace(transform);
+                Drop();
+                WeaponUpdated?.Invoke();
+            }
+        }
     }
 }

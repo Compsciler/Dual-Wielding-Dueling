@@ -7,19 +7,21 @@ using UnityEngine.UI;
 public class AmmoUI : MonoBehaviour
 {
     private WeaponArm weaponArm;
+    private string lr;
     
     [SerializeField] TMP_Text gunAmmoText;
     [SerializeField] Image gunReloadImage;
 
     void Awake()
     {
-        string lr = "Right";
+        lr = "Right";
         if(transform.name.Equals("Left Gun Reload"))
         {
             lr = "Left";
         }
         weaponArm=transform.parent.parent.Find("CameraPosition").Find(lr+" Arm").GetComponentInChildren<WeaponArm>();
         weaponArm.OnAmmoUpdated += UpdateAmmoDisplay;
+        weaponArm.WeaponUpdated += SetArm;
     }
 
     void OnDestroy()
@@ -34,5 +36,12 @@ public class AmmoUI : MonoBehaviour
         {
             gunReloadImage.fillAmount = weaponArm.TimeLeft / weaponArm.reloadTime;
         }
+    }
+
+    private void SetArm()
+    {
+        weaponArm=transform.parent.parent.Find("CameraPosition").Find(lr+" Arm").GetComponentInChildren<WeaponArm>();
+        weaponArm.OnAmmoUpdated += UpdateAmmoDisplay;
+        weaponArm.WeaponUpdated += SetArm;
     }
 }

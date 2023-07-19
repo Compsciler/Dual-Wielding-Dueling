@@ -10,7 +10,9 @@ public class PlayerAttributes : MonoBehaviour, Entity
     private float airModifier;
 
     private float drag;
-    protected BodyType body;
+    private BodyType body;
+    private WeaponArm leftWeapon;
+    private WeaponArm rightWeapon;
 
     public Transform orientation;
     
@@ -29,7 +31,6 @@ public class PlayerAttributes : MonoBehaviour, Entity
     public KeyCode leftDrop;
     public KeyCode rightDrop;
     public LayerMask groundLayer;
-    public GameObject pickUp;
     bool grounded;
     bool canJump;
     // Start is called before the first frame update
@@ -44,6 +45,10 @@ public class PlayerAttributes : MonoBehaviour, Entity
         airModifier = (1-body.airPenalty);
         drag = body.drag;
         playerHeight = bodyTransform.GetChild(0).GetComponent<CapsuleCollider>().height*bodyTransform.GetChild(0).transform.localScale.y;
+        leftWeapon=transform.Find("CameraPosition").Find("Left Arm").GetChild(0).GetComponent<WeaponArm>();
+        rightWeapon=transform.Find("CameraPosition").Find("Right Arm").GetChild(0).GetComponent<WeaponArm>();
+        leftWeapon.WeaponUpdated+=SetLeftArm;
+        rightWeapon.WeaponUpdated+=SetRightArm;
     }
 
     // Update is called once per frame
@@ -58,14 +63,6 @@ public class PlayerAttributes : MonoBehaviour, Entity
             canJump = false;
             Jump();
             Invoke(nameof(reset), jumpTimer);
-        }
-        if(Input.GetKey(leftDrop))
-        {
-
-        }
-        if(Input.GetKey(rightDrop))
-        {
-
         }
     }
 
@@ -143,22 +140,19 @@ public class PlayerAttributes : MonoBehaviour, Entity
         }
     }
 
-    public void DropGun(bool left)
-    {
-       GameObject go = transform.Find("CameraPosition").Find((left ? "Left" : "Right")+" Arm").GetChild(0).gameObject;
-       go.transform.SetParent(null);
-       GameObject pickUpGun = Instantiate(pickUp,transform.position,transform.rotation);
-       pickUpGun.GetComponent<PickUp>().item=go;
-    }
-
     public void Die()
     {
-        DropGun(true);
-        DropGun(false);
+        leftWeapon.Drop();
+        rightWeapon.Drop();
     }
-
-    public void GrabGun(bool left)
+    private void SetLeftArm()
     {
-        
+        leftWeapon=transform.Find("CameraPosition").Find("Left Arm").GetChild(0).GetComponent<WeaponArm>();
+        leftWeapon.WeaponUpdated += SetLeftArm;
+    }
+    private void SetRightArm()
+    {
+        rightWeapon=transform.Find("CameraPosition").Find("Right Arm").GetChild(0).GetComponent<WeaponArm>();
+        rightWeapon.WeaponUpdated += SetRightArm;
     }
 }

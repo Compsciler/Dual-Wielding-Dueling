@@ -21,12 +21,15 @@ public class PickUp : MonoBehaviour, Entity
     void Start()
     {
         rb.drag=drag;
+        item.SetActive(false);
         GameObject go = Instantiate(item);
+        go.SetActive(true);
         Destroy(go.GetComponent<WeaponArm>());
         Destroy(go.transform.Find("GunTip").gameObject);
         go.transform.SetParent(transform);
         go.transform.GetComponent<Collider>().enabled=true;
-        go.transform.position=transform.position;
+        go.transform.localPosition=Vector3.zero;
+        go.transform.rotation=Quaternion.identity;
     }
 
     // Update is called once per frame
@@ -54,5 +57,15 @@ public class PickUp : MonoBehaviour, Entity
             force = Mathf.Pow(Mathf.Abs(hit.point.y - transform.position.y),-0.5f);
             rb.AddForceAtPosition(transform.up * force * upForce, transform.position, ForceMode.Acceleration);
         }
+    }
+
+    public void Replace(Transform old)
+    {
+        Destroy(gameObject);
+        GameObject go=Instantiate(item);
+        go.SetActive(true);
+        go.transform.SetParent(old.parent);
+        go.transform.localPosition = old.localPosition;
+        go.transform.localRotation = old.localRotation;
     }
 }
