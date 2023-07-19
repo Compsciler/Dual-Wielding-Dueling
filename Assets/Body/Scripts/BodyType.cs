@@ -37,4 +37,9 @@ public class BodyType : MonoBehaviour
             Die();
         }
     }
+
+    public float getHP()
+    {
+        return curHP;
+    }
 }

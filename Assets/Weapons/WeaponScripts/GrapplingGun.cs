@@ -7,30 +7,26 @@ public class GrapplingGun : WeaponArm {
 
     private LineRenderer lr;
     private Vector3 grapplePoint;
-    public LayerMask whatIsGrappleable;
-    public float maxDistance;
+    public LayerMask grappleable;
     private SpringJoint joint;
+
+    public float maxDist;
 
     [SerializeField] float spring;
     [SerializeField] float damper;
     [SerializeField] float massScale;
 
-    private Image crosshairImage;
-    [SerializeField] Color crosshairColorGrappleable;
-    [SerializeField] Color crosshairColorNotGrappleable;
-    private TMP_Text notGrappleableDistanceText;
-
     protected override void Start() {
-        crosshairImage=transform.parent.parent.parent.Find("Display").Find("Crosshair").GetComponent<Image>();
-        notGrappleableDistanceText=transform.parent.parent.parent.Find("Display").Find("Not Grappleable Distance").GetComponent<TMP_Text>();
+        base.maxDistance=maxDist;
         base.Start();
+
         lr = GetComponent<LineRenderer>();
         lr.positionCount = 0;
     }
 
     public override void Fire() {
         RaycastHit hit;
-        if (Physics.Raycast(cam.position, cam.forward, out hit, maxDistance, whatIsGrappleable)) {
+        if (Physics.Raycast(gunTip.position, gunTip.forward, out hit, maxDistance, grappleable)) {
             grapplePoint = hit.point;
             joint = player.gameObject.AddComponent<SpringJoint>();
             joint.autoConfigureConnectedAnchor = false;
@@ -57,22 +53,6 @@ public class GrapplingGun : WeaponArm {
     protected override void Update()
     {
         base.Update();
-        RaycastHit hit;
-        if (Physics.Raycast(cam.position, cam.forward, out hit, maxDistance, whatIsGrappleable)) {
-            crosshairImage.color = crosshairColorGrappleable;
-            notGrappleableDistanceText.text = "";
-        }
-        else
-        {
-            crosshairImage.color = crosshairColorNotGrappleable;
-            if (Physics.Raycast(cam.position, cam.forward, out hit, Mathf.Infinity, whatIsGrappleable)) {
-                notGrappleableDistanceText.text = Mathf.Ceil(hit.distance - maxDistance).ToString();
-            }
-            else
-            {
-                notGrappleableDistanceText.text = "";
-            }
-        }
     }
 
 

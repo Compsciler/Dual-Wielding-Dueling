@@ -5,13 +5,6 @@ using TMPro;
 using UnityEngine.UI;
 using System;
 
-public struct CrosshairData
-{
-        public Sprite CrosshairSprite;
-        public int CrosshairSize;
-        public Color CrosshairColor;
-}
-
 public abstract class WeaponArm: MonoBehaviour
 {
     // Start is called before the first frame update
@@ -25,17 +18,29 @@ public abstract class WeaponArm: MonoBehaviour
     protected float timeLeft;
     public float TimeLeft => timeLeft;
     private float shotTimeLeft;
-    public CrosshairData defCrosshair;
     protected Transform gunTip;
-
+    private GameObject pickUp;
     protected Transform player;
 
     protected Transform cam;
+    private Camera camDisplay;
     private bool firing;
-    protected int arm;
+    protected bool left;
+
+    [HideInInspector] protected float maxDistance;
+    private float maxPickupDistance = 10f;
 
     public Action OnAmmoUpdated;
+    public Action WeaponUpdated;
 
+    PickUp pickUpTargetPrev = null;
+    public static Action<PickUp, bool> OnPickUpEnter;
+    public static Action<PickUp, bool> OnPickUpExit;
+
+    void Awake()
+    {
+        pickUp = (GameObject) Resources.Load("Pickup", typeof(GameObject));
+    }
     protected virtual void Start()
     {
         curBullets=maxBullets;
@@ -45,7 +50,8 @@ public abstract class WeaponArm: MonoBehaviour
         cam=Camera.main.transform;
         player=transform.parent.parent.parent;
         gunTip=transform.Find("GunTip");
-        arm = transform.parent.name.Equals("Right Arm") ? 1 : 0;
+        left = transform.parent.name.Equals("Left Arm") ? true : false;
+        camDisplay=cam.GetComponent<Camera>();
     }
 
     // Update is called once per frame
@@ -67,21 +73,44 @@ public abstract class WeaponArm: MonoBehaviour
         }
 
         OnAmmoUpdated?.Invoke();
+
+        PickUp pickUpTarget = GetPickUpObj();
+        if (pickUpTarget == null)
+        {
+            if (pickUpTargetPrev != null)
+            {
+                OnPickUpExit?.Invoke(pickUpTargetPrev, left);
+            }
+            pickUpTargetPrev = null;
+        }
+        else if (pickUpTargetPrev != pickUpTarget)
+        {
+            if (pickUpTargetPrev != null)
+            {
+                OnPickUpExit?.Invoke(pickUpTargetPrev, left);
+            }
+            OnPickUpEnter?.Invoke(pickUpTarget, left);
+            pickUpTargetPrev = pickUpTarget;
+        }
     }
 
     protected virtual void LateUpdate()
     {
-        if (Input.GetMouseButtonDown(arm)&&curBullets>0&&!firing&&shotTimeLeft<0) 
+        if (Input.GetMouseButtonDown(left?0:1)&&curBullets>0&&!firing&&shotTimeLeft<0) 
         {
             Fire();
         }
-        else if (Input.GetMouseButtonUp(arm)&&firing) 
+        else if (Input.GetMouseButtonUp(left?0:1)&&firing) 
         {
             Release();
         }
-        if(firing)
+        else if(firing)
         {
             Hold();
+        }
+        if((left&&Input.GetKeyDown(KeyCode.Q))||(!left&&Input.GetKeyDown(KeyCode.E)))
+        {
+            Grab();
         }
     }
     public virtual void Fire()
@@ -100,5 +129,42 @@ public abstract class WeaponArm: MonoBehaviour
     public virtual void Release()
     {
         firing=false;
+    }
+    public virtual Vector3? GetTarget()
+    {
+        RaycastHit hit;
+        if (Physics.Raycast(gunTip.position, gunTip.forward, out hit, maxDistance))
+        {
+            return hit.point;
+        }
+        return null;
+    }
+    public virtual PickUp GetPickUpObj()
+    {
+        RaycastHit hit;
+        if (Physics.Raycast(gunTip.position, gunTip.forward, out hit, maxPickupDistance))
+        {
+            if (hit.transform.TryGetComponent<PickUp>(out PickUp target))
+            {
+                return target;
+            }
+        }
+        return null;
+    }
+    
+    public void Drop()
+    {
+        transform.SetParent(null);
+        GameObject pickUpGun = Instantiate(pickUp,transform.position,Quaternion.identity);
+        pickUpGun.GetComponent<PickUp>().item=gameObject;
+    }
+    public void Grab()
+    {
+        PickUp target = GetPickUpObj();
+        if (target == null) { return; }
+
+        target.Replace(transform);
+        Drop();
+        WeaponUpdated?.Invoke();
     }
 }

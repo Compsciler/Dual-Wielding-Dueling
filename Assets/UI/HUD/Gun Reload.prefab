@@ -225,6 +225,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4f5ec7069e979c741b0b217439ecf994, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  weaponArm: {fileID: 0}
-  pulseGunAmmoText: {fileID: 3972393805310932301}
-  pulseGunReloadImage: {fileID: 3972393806797103140}
+  gunAmmoText: {fileID: 0}
+  gunReloadImage: {fileID: 0}

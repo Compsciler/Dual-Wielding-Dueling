@@ -10,7 +10,9 @@ public class PlayerAttributes : MonoBehaviour, Entity
     private float airModifier;
 
     private float drag;
-    protected Transform body;
+    private BodyType body;
+    private WeaponArm leftWeapon;
+    private WeaponArm rightWeapon;
 
     public Transform orientation;
     
@@ -19,28 +21,34 @@ public class PlayerAttributes : MonoBehaviour, Entity
 
     Vector3 dir;
 
-    Rigidbody rb;
+    public Rigidbody rb
+    {
+        get => GetComponent<Rigidbody>();
+    }
 
     private float playerHeight;
     public KeyCode jumpKey;
+    public KeyCode leftDrop;
+    public KeyCode rightDrop;
     public LayerMask groundLayer;
-
     bool grounded;
     bool canJump;
     // Start is called before the first frame update
     void Start()
     {
-        
-        rb=GetComponent<Rigidbody>();
         rb.freezeRotation = true;
         canJump = true;
-        body=transform.Find("Body");
-        BodyType bt = body.GetComponentInChildren<BodyType>();
-        moveSpeed = bt.moveSpeed;
-        jumpForce = bt.jumpForce;
-        airModifier = (1-bt.airPenalty);
-        drag = bt.drag;
-        playerHeight = body.GetChild(0).GetComponent<CapsuleCollider>().height*body.GetChild(0).transform.localScale.y;
+        Transform bodyTransform=transform.Find("Body");
+        body = bodyTransform.GetComponentInChildren<BodyType>();
+        moveSpeed = body.moveSpeed;
+        jumpForce = body.jumpForce;
+        airModifier = (1-body.airPenalty);
+        drag = body.drag;
+        playerHeight = bodyTransform.GetChild(0).GetComponent<CapsuleCollider>().height*bodyTransform.GetChild(0).transform.localScale.y;
+        leftWeapon=transform.Find("CameraPosition").Find("Left Arm").GetChild(0).GetComponent<WeaponArm>();
+        rightWeapon=transform.Find("CameraPosition").Find("Right Arm").GetChild(0).GetComponent<WeaponArm>();
+        leftWeapon.WeaponUpdated+=SetLeftArm;
+        rightWeapon.WeaponUpdated+=SetRightArm;
     }
 
     // Update is called once per frame
@@ -102,7 +110,6 @@ public class PlayerAttributes : MonoBehaviour, Entity
             Vector3 l = flat.normalized*moveSpeed;
             rb.velocity = new Vector3(l.x,rb.velocity.y,l.z);
         }
-        Debug.Log(dir);
         if(dir.Equals(Vector3.zero) && grounded)
         {
             rb.velocity=Vector3.zero;
@@ -126,6 +133,26 @@ public class PlayerAttributes : MonoBehaviour, Entity
     }
     public void TakeDamage(float dmg)
     {
-        body.GetComponentInChildren<BodyType>().TakeDamage(dmg);
+        body.TakeDamage(dmg);
+        if(body.getHP()<=0)
+        {
+            Die();
+        }
+    }
+
+    public void Die()
+    {
+        leftWeapon.Drop();
+        rightWeapon.Drop();
+    }
+    private void SetLeftArm()
+    {
+        leftWeapon=transform.Find("CameraPosition").Find("Left Arm").GetChild(0).GetComponent<WeaponArm>();
+        leftWeapon.WeaponUpdated += SetLeftArm;
+    }
+    private void SetRightArm()
+    {
+        rightWeapon=transform.Find("CameraPosition").Find("Right Arm").GetChild(0).GetComponent<WeaponArm>();
+        rightWeapon.WeaponUpdated += SetRightArm;
     }
 }
