@@ -150,5 +150,5 @@ MonoBehaviour:
   reloadTime: 5
   secsPerShot: 0.1
   ammo: {fileID: 244846348600410558, guid: 04ec008feb7e13c8b8dddcf3ec67280b, type: 3}
-  ammoSpeed: 30
+  ammoSpeed: 60
   ammoLifeSpan: 5
